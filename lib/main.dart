@@ -30,7 +30,7 @@ class _HomePageDeciderState extends State<HomePageDecider> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ? Center(child: CircularProgressIndicator(),) : LoginForm()
+    return isLoading ? Center(child: CircularProgressIndicator(),) : LoginForm();
   }
 }
 
