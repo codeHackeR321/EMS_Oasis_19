@@ -1,3 +1,4 @@
+import 'package:ems_oasis_19/addTeamMember.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -35,6 +36,7 @@ class _LoginFormState extends State<LoginForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
               onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMember()));
                 // Validate returns true if the form is valid, or false
                 // otherwise.
                 if (_formKey.currentState.validate()) {
