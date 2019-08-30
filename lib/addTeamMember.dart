@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'AddMemberBloc.dart';
+import 'AddMemberStates.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'AddTeamMemberEvents.dart';
+import 'package:http/http.dart' as http;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class AddTeamMemberPage extends StatelessWidget {
@@ -18,9 +23,99 @@ class AddTeamMemberPage extends StatelessWidget {
           ),
           title: Text(pageTitle),
         ),
-        body: AddTeamMemberWidget(),
+        body: BlocProvider(
+          builder: (context) {
+            print("Entered Bloc Provider");
+            return AddMemberBloc(httpClient: http.Client());
+          },
+          child: BlocChild(),
+        ),
       ),
     );
+  }
+}
+
+class BlocChild extends StatefulWidget {
+  @override
+  _BlocChildState createState() => _BlocChildState();
+}
+
+class _BlocChildState extends State<BlocChild> {
+AddMemberBloc _bloc;
+final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+TextEditingController codeController = new TextEditingController(text: "");
+QRViewController controller;
+
+@override
+  void initState() {
+    super.initState();
+    _bloc = BlocProvider.of<AddMemberBloc>(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AddMemberBloc, AddMemberStates>(
+      builder: (context, state) {
+        if(state is NoMemberScanned) {
+          return Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: codeController,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: "Enter unique code"
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 5,
+              child: QRView(
+                key: qrKey,
+                onQRViewCreated: _onQRViewCreated,
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: RaisedButton(
+                  child: Text("Add Member"),
+                  /* To disable the button, we need to pass null in the onPressed field
+                    Currently, the button is disabled if the loader is visible, or there is no text in the text field*/
+                  onPressed: codeController.text.isNotEmpty ? () {
+                    print("Added Member = ${codeController.text}");
+                    (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text, "Team1");
+                    _bloc.dispatch(AddNewTeamMember());
+                    // Navigator.of(context).pop();
+                  } : null,
+                ),
+              ),
+            )
+          ],
+        );
+        }
+        else if(state is ErrorAddingMember){
+          return Center(child: Text(state.errorMessage),);
+        }
+        else if(state is AddingNewMember) {
+          return Center(child: CircularProgressIndicator(),);
+        }
+        return Center(child: Text("Something went wrong."),);
+      },
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        codeController.text = scanData;
+      });
+    });
   }
 }
 
