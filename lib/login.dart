@@ -44,6 +44,7 @@ class _LoginFormState extends State<LoginForm> {
                 widget.parent.setState(() {
                   widget.parent.isLoading = true;                  
                 });
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage()));
                 // Validate returns true if the form is valid, or false
                 // otherwise.
                 if (_formKey.currentState.validate()) {
