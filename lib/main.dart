@@ -22,15 +22,22 @@ class MyApp extends StatelessWidget {
 
 class HomePageDecider extends StatefulWidget {
   @override
-  _HomePageDeciderState createState() => _HomePageDeciderState();
+  HomePageDeciderState createState() => HomePageDeciderState();
 }
 
-class _HomePageDeciderState extends State<HomePageDecider> {
+class HomePageDeciderState extends State<HomePageDecider> {
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ? Center(child: CircularProgressIndicator(),) : LoginForm();
+    return AnimatedCrossFade(
+      firstChild: Center(child: CircularProgressIndicator(),),
+      secondChild:  LoginForm(this),
+      crossFadeState: isLoading ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      duration: Duration(
+        milliseconds: 500,
+      ),
+    );
   }
 }
 
