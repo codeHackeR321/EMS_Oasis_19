@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:ems_oasis_19/Config.dart';
 import 'package:ems_oasis_19/addTeamMember.dart';
+import 'package:ems_oasis_19/eventsList/EventsRepository.dart';
+import 'package:ems_oasis_19/eventsList/view/EventListScreen.dart';
+import 'package:ems_oasis_19/eventsProvider/EventsScreen.dart';
 import 'package:ems_oasis_19/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,67 +22,72 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
-  TextEditingController userNameController = TextEditingController(text: "davidattenborough");
-  TextEditingController passwordController = TextEditingController(text: "boatymcboatface");
+  TextEditingController userNameController = TextEditingController(text: "test_judge");
+  TextEditingController passwordController = TextEditingController(text: "test123456");
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            controller: userNameController,
-            autofocus: true,
-            decoration: InputDecoration(
-              hintText: "Enter Username"
-            ),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+    return Container(
+      child: Center(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                controller: userNameController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: "Enter Username"
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: "Enter Password"
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text2';
+                  }
+                  return null;
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: RaisedButton(
+                  onPressed: () {
+                    /* widget.parent.setState(() {
+                      widget.parent.isLoading = true;                  
+                    }); */
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage()));
+                    // Validate returns true if the form is valid, or false
+                    // otherwise.
+                    if (_formKey.currentState.validate()) {
+                      String username = userNameController.text;
+                      String password = passwordController.text;
+                      setState(() {
+                       isLoading = true; 
+                      });
+                      // loginUser(username, password);
+                      navigateToNextPage();
+                      // If the form is valid, display a Snackbar.
+                      // Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
+                    }
+                  },
+                  child: Text('Submit'),
+                ),
+              ),
+            ],
           ),
-          TextFormField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: "Enter Password"
-            ),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text2';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              onPressed: () {
-                /* widget.parent.setState(() {
-                  widget.parent.isLoading = true;                  
-                });
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage())); */
-                // Validate returns true if the form is valid, or false
-                // otherwise.
-                if (_formKey.currentState.validate()) {
-                  String username = userNameController.text;
-                  String password = passwordController.text;
-                  setState(() {
-                   isLoading = true; 
-                  });
-                  loginUser(username, password);
-                  // If the form is valid, display a Snackbar.
-                  // Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -103,6 +111,7 @@ class _LoginFormState extends State<LoginForm> {
             }
             setState(() {
              isLoading = false; 
+             navigateToNextPage();
             });
             print("Login Sucewssful");
           } catch(e) {
@@ -128,4 +137,10 @@ class _LoginFormState extends State<LoginForm> {
     }
     return true;
   }
+
+  Future<Null> navigateToNextPage() async { 
+    var repo = EventsRepository();
+    // repo.getEvents();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EventsScreen()));
+   }
 }
