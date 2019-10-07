@@ -3,22 +3,19 @@ import 'package:equatable/equatable.dart';
 abstract class AddMemberStates extends Equatable {}
 
 class NoMemberScanned extends AddMemberStates {
-String memberCode;
-  String teamName;
+  Set<String> scannedMembers;
+  
+  NoMemberScanned() {
+    scannedMembers = Set();
+  } 
 
-  NoMemberScanned({
-    this.memberCode,
-    this.teamName,
-  }); 
-
-  void addMemberInfo(String code, String name) {
-    this.memberCode = code;
-    this.teamName = name;
+  void addMemberInfo(String code) {
+    this.scannedMembers.add(code);
   }
 
   @override
   String toString() {
-    return "Adding Member $memberCode to Team $teamName";
+    return "Adding Members to Team \n Members = $scannedMembers";
   }
 }
 

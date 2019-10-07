@@ -9,20 +9,26 @@ class AddMemberBloc extends Bloc<AddTeamMemberEvents, AddMemberStates> {
 
   AddMemberBloc({@required this.httpClient});
 
+  // TODO: Have some way to get the name of the team
   @override
   AddMemberStates get initialState =>
-      NoMemberScanned(memberCode: "", teamName: "q");
+      NoMemberScanned();
 
   @override
   Stream<AddMemberStates> mapEventToState(AddTeamMemberEvents event) async* {
-    if (event is AddNewTeamMember) {
+    if (event is AddNewTeamMembers) {
       try {
         if (currentState is NoMemberScanned) {
-          String code = (currentState as NoMemberScanned).memberCode;
+          List<String> listOfMembers = (currentState as NoMemberScanned).scannedMembers.toList();
+          String team = event.teamName;
+          yield AddingNewMember();
+          await _addNewMember(listOfMembers, team);
+          yield NoMemberScanned();
+          /* String code = (currentState as NoMemberScanned).memberCode;
           String team = (currentState as NoMemberScanned).teamName;
           yield AddingNewMember();
           await _addNewMember(code, team);
-          yield NoMemberScanned(memberCode: "", teamName: "");
+          yield NoMemberScanned(memberCode: "", teamName: ""); */
         }
       } catch (error) {
         print(error.toString());
@@ -31,8 +37,8 @@ class AddMemberBloc extends Bloc<AddTeamMemberEvents, AddMemberStates> {
     }
   }
 
-  Future<Null> _addNewMember(String code, String team) async {
-    print("Entered Api call with $code and $team");
-    throw Exception("Cannot Load Posts");
+  Future<Null> _addNewMember(List<String> codes, String team) async {
+    print("Entered Api call with ${codes.toString()} and $team");
+    // throw Exception("Cannot Load Posts");
   }
 }

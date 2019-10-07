@@ -57,46 +57,83 @@ QRViewController controller;
     return BlocBuilder<AddMemberBloc, AddMemberStates>(
       builder: (context, state) {
         if(state is NoMemberScanned) {
-          return Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: codeController,
-                  autofocus: false,
-                  decoration: InputDecoration(
-                    hintText: "Enter unique code"
+          return SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: <Widget>[
+                  Flexible(
+                    flex: 2,
+                    child: ListView.builder(
+                      itemCount: (state as NoMemberScanned).scannedMembers.toList().length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Center(child: Text((state as NoMemberScanned).scannedMembers.toList()[index]),);
+                      },
+                    ),
                   ),
-                ),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: codeController,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        hintText: "Enter unique code"
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: QRView(
+                      key: qrKey,
+                      onQRViewCreated: (QRViewController controller) {
+                        this.controller = controller;
+                        controller.scannedDataStream.listen((scanData) {
+                          controller.pauseCamera();
+                          setState(() {
+                            print("Automatically called AddNewTeamMember");
+                            (_bloc.currentState as NoMemberScanned).addMemberInfo(scanData);
+                          });
+                          controller.resumeCamera();
+                        });
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: RaisedButton(
+                        child: Text("Add Member"),
+                        /* To disable the button, we need to pass null in the onPressed field
+                          Currently, the button is disabled if the loader is visible, or there is no text in the text field*/
+                        onPressed: codeController.text.isNotEmpty ? () {
+                          print("Added Member = ${codeController.text}");
+                          setState(() {
+                          (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                          codeController.text = ""; 
+                          });
+                          // Navigator.of(context).pop();
+                        } : null,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: RaisedButton(
+                        child: Text("Add All Team Members"),
+                        onPressed: (state as NoMemberScanned).scannedMembers.isNotEmpty ? () {
+                          print("Adding all team members");
+                          (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                          _bloc.dispatch(AddNewTeamMembers("Team1"));
+                        } : null,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Expanded(
-              flex: 5,
-              child: QRView(
-                key: qrKey,
-                onQRViewCreated: _onQRViewCreated,
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Center(
-                child: RaisedButton(
-                  child: Text("Add Member"),
-                  /* To disable the button, we need to pass null in the onPressed field
-                    Currently, the button is disabled if the loader is visible, or there is no text in the text field*/
-                  onPressed: codeController.text.isNotEmpty ? () {
-                    print("Added Member = ${codeController.text}");
-                    (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text, "Team1");
-                    _bloc.dispatch(AddNewTeamMember());
-                    // Navigator.of(context).pop();
-                  } : null,
-                ),
-              ),
-            )
-          ],
-        );
+          );
         }
         else if(state is ErrorAddingMember){
           return Center(child: Text(state.errorMessage),);
@@ -107,15 +144,6 @@ QRViewController controller;
         return Center(child: Text("Something went wrong."),);
       },
     );
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        codeController.text = scanData;
-      });
-    });
   }
 }
 
