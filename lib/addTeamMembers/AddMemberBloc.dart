@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:ems_oasis_19/AddMemberStates.dart';
-import 'package:ems_oasis_19/AddTeamMemberEvents.dart';
+import 'package:ems_oasis_19/addTeamMembers/AddMemberStates.dart';
+import 'package:ems_oasis_19/addTeamMembers/AddTeamMemberEvents.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
