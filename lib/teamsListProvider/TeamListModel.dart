@@ -27,6 +27,10 @@ class TeamListModel with ChangeNotifier {
         print("Fetched Teams = $teams");
         isLoading = false;
         notifyListeners();
+      } else if(response.statusCode == 401 && json.decode(response.body)["code"].toString() == "token_not_valid") {
+        Config.refreshJWTToken().then((_) {
+          getTeamDetailsForEvent(eventId, levelId);
+        });
       }
     } catch(e) {
       print("An Exception occoured while fetching teams = ${e.toString()}");
