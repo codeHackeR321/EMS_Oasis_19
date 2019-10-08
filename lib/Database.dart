@@ -7,6 +7,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseProvider {
   // This is used to create a singleton for this class
+  // This is a private constructor
   DatabaseProvider._();
 
   static final DatabaseProvider databaseProvider = DatabaseProvider._();

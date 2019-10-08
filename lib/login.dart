@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:ems_oasis_19/Config.dart';
-import 'package:ems_oasis_19/addTeamMember.dart';
+import 'package:ems_oasis_19/addTeamMembers/addTeamMember.dart';
 import 'package:ems_oasis_19/eventsList/EventsRepository.dart';
 import 'package:ems_oasis_19/eventsList/view/EventListScreen.dart';
+import 'package:ems_oasis_19/eventsProvider/EventPages.dart';
 import 'package:ems_oasis_19/eventsProvider/EventsScreen.dart';
 import 'package:ems_oasis_19/main.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
-  TextEditingController userNameController = TextEditingController(text: "test_judge");
+  TextEditingController userNameController = TextEditingController(text: "test_cd");
   TextEditingController passwordController = TextEditingController(text: "test123456");
 
   @override
@@ -76,8 +77,8 @@ class _LoginFormState extends State<LoginForm> {
                       setState(() {
                        isLoading = true; 
                       });
-                      // loginUser(username, password);
-                      navigateToNextPage();
+                      loginUser(username, password);
+                      // navigateToNextPage();
                       // If the form is valid, display a Snackbar.
                       // Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
                     }
@@ -105,6 +106,7 @@ class _LoginFormState extends State<LoginForm> {
           try{
             String jwt = body["access"];
             String refresh = body["refresh"];
+            print("Saving $jwt, and \n $refresh in shared preferences");
             bool saveSuccessful = await saveJwtSharedPrefs(jwt, refresh);
             if(!saveSuccessful){
               throw Exception("Unable to save data in Shared Preferences");
@@ -141,6 +143,6 @@ class _LoginFormState extends State<LoginForm> {
   Future<Null> navigateToNextPage() async { 
     var repo = EventsRepository();
     // repo.getEvents();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => EventsScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EventScreen()));
    }
 }
