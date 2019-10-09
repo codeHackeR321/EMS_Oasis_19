@@ -1,3 +1,4 @@
+import 'package:ems_oasis_19/addTeamMembers/addTeamMember.dart';
 import 'package:ems_oasis_19/eventsList/model/Teams.dart';
 import 'package:ems_oasis_19/teamMembersListProvider/TeamMembersListModel.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class TeamMemberListScreen extends StatelessWidget {
             },
           ),
         ),
-        body: MembersListWidget()
+        body: MembersListWidget(eventId)
       ),
     ),
     );
@@ -36,6 +37,10 @@ class TeamMemberListScreen extends StatelessWidget {
 }
 
 class MembersListWidget extends StatelessWidget {
+  String eventId;
+
+  MembersListWidget(this.eventId);
+
   @override
   Widget build(BuildContext context) {
     final TeamMembersListModel _listModel = Provider.of<TeamMembersListModel>(context);
@@ -67,8 +72,8 @@ class MembersListWidget extends StatelessWidget {
             Container(
               child: RaisedButton(
                 child: Text("Add Team Member"),
-                onPressed: () {
-                  
+                onPressed: () async {
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: false,eventId: eventId,))); 
                 },
               ),
             )

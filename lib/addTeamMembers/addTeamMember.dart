@@ -8,6 +8,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class AddTeamMemberPage extends StatelessWidget {
   final String pageTitle = "Add Member";
+  bool addingTeam;
+  String eventId;
+
+  AddTeamMemberPage({@required this.addingTeam, @required this.eventId});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class AddTeamMemberPage extends StatelessWidget {
             print("Entered Bloc Provider");
             return AddMemberBloc(httpClient: http.Client());
           },
-          child: BlocChild(),
+          child: BlocChild(eventId),
         ),
       ),
     );
@@ -37,7 +41,10 @@ class AddTeamMemberPage extends StatelessWidget {
 
 class BlocChild extends StatefulWidget {
   @override
-  _BlocChildState createState() => _BlocChildState();
+  _BlocChildState createState() => _BlocChildState(eventId);
+  String eventId;
+
+  BlocChild(this.eventId);
 }
 
 class _BlocChildState extends State<BlocChild> {
@@ -45,6 +52,9 @@ AddMemberBloc _bloc;
 final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 TextEditingController codeController = new TextEditingController(text: "");
 QRViewController controller;
+String eventId;
+
+_BlocChildState(this.eventId);
 
 @override
   void initState() {
@@ -125,7 +135,7 @@ QRViewController controller;
                         onPressed: (state as NoMemberScanned).scannedMembers.isNotEmpty ? () {
                           print("Adding all team members");
                           (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
-                          _bloc.dispatch(AddNewTeamMembers("Team1"));
+                          _bloc.dispatch(AddNewTeamMembers("Team1", eventId));
                         } : null,
                       ),
                     ),
