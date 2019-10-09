@@ -101,8 +101,10 @@ class _LoginFormState extends State<LoginForm> {
       }),
        headers: {"Content-Type": "application/json"}
     ).then((http.Response response) async {
+        print("Login response = ${response.body.toString()}");
         if(response.statusCode == 200) {
           var body = json.decode(response.body);
+          print("Login Body = ${body.toString()}");
           try{
             String jwt = body["access"];
             String refresh = body["refresh"];
