@@ -32,7 +32,7 @@ class AddTeamMemberPage extends StatelessWidget {
             print("Entered Bloc Provider");
             return AddMemberBloc(httpClient: http.Client());
           },
-          child: BlocChild(eventId),
+          child: BlocChild(eventId, addingTeam),
         ),
       ),
     );
@@ -41,20 +41,23 @@ class AddTeamMemberPage extends StatelessWidget {
 
 class BlocChild extends StatefulWidget {
   @override
-  _BlocChildState createState() => _BlocChildState(eventId);
+  _BlocChildState createState() => _BlocChildState(eventId, addingTeam);
   String eventId;
+  bool addingTeam;
 
-  BlocChild(this.eventId);
+  BlocChild(this.eventId, this.addingTeam);
 }
 
 class _BlocChildState extends State<BlocChild> {
 AddMemberBloc _bloc;
 final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 TextEditingController codeController = new TextEditingController(text: "");
+TextEditingController teamNameController = new TextEditingController(text: "");
 QRViewController controller;
 String eventId;
+bool addingTeam;
 
-_BlocChildState(this.eventId);
+_BlocChildState(this.eventId, this.addingTeam);
 
 @override
   void initState() {
@@ -73,6 +76,17 @@ _BlocChildState(this.eventId);
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: <Widget>[
+                  addingTeam ? 
+                    Center(
+                      child: TextField(
+                        controller: teamNameController,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          hintText: "Enter Team"
+                        ),
+                      ),
+                    ): 
+                    Container(),
                   Flexible(
                     flex: 2,
                     child: ListView.builder(
@@ -131,11 +145,19 @@ _BlocChildState(this.eventId);
                     flex: 1,
                     child: Center(
                       child: RaisedButton(
-                        child: Text("Add All Team Members"),
+                        child: addingTeam ? Text("Create New Team") : Text("Add All Team Members"),
                         onPressed: (state as NoMemberScanned).scannedMembers.isNotEmpty ? () {
-                          print("Adding all team members");
-                          (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
-                          _bloc.dispatch(AddNewTeamMembers("Team1", eventId));
+                          if(addingTeam) {
+                            if(teamNameController.text.isNotEmpty) {
+                              print("Adding Team");
+                              var qrCodes = (_bloc.currentState as NoMemberScanned).scannedMembers;
+                              _bloc.dispatch(AddNewTeam(eventId: eventId, teamName: teamNameController.text, qrCodes: qrCodes.toList(), leader: qrCodes.toList()[0]));
+                            }
+                          } else {
+                            print("Adding all team members");
+                            // (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                            _bloc.dispatch(AddNewTeamMembers("Team1", eventId));
+                          }
                         } : null,
                       ),
                     ),

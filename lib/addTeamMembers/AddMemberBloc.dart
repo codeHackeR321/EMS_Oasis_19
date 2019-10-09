@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:ems_oasis_19/addTeamMembers/AddMemberStates.dart';
 import 'package:ems_oasis_19/addTeamMembers/AddTeamMemberEvents.dart';
@@ -61,5 +63,23 @@ class AddMemberBloc extends Bloc<AddTeamMemberEvents, AddMemberStates> {
 
   Future<Null> _addNewTeam(String evetnId, String teamName, List<String> qrCodes, String leader) async {
     print("Entered api call to add team $teamName with members $qrCodes");
+    String jwt = await Config.getJWTFromSharedPreferences();
+    httpClient.post(Config.membersList+"$evetnId/team/add", headers: {"Authorization":"Bearer $jwt"}, body: json.encode({
+      "name": teamName,
+      "leader": leader,
+      "participants": qrCodes.toList()
+    })).then((http.Response response) {
+      print("Response Code of adding new team member = ${response.statusCode}");
+      print("Response Body of adding new team member = ${response.body.toString()}");
+      if (response.statusCode == 200) {
+
+      } else if(response.statusCode == 401 && json.decode(response.body)["code"].toString() == "token_not_valid") {
+        Config.refreshJWTToken().then((_) {
+          _addNewTeam(evetnId, teamName, qrCodes, leader);
+        });
+      } else {
+        throw("Failed to add team with unKnown exception");
+      }
+    });
   }
 }
