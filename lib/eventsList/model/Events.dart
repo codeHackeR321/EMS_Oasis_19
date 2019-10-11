@@ -3,6 +3,9 @@
 //     final events = eventsFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:ems_oasis_19/Config.dart';
+import 'package:ems_oasis_19/Temp.dart';
 
 Events eventsFromJson(List<dynamic> list) {
   /* var temp = (json.decode(str)["evetns"]);
@@ -20,6 +23,22 @@ class Events {
     Events({
         this.events,
     });
+
+    static Future<List<FinalEvents>> getListOfEvents(List<dynamic> json) async {
+      var events = Events.fromJson(json);
+      List<FinalEvents> list = new List();
+      var jwt = await Config.getJWTFromSharedPreferences();
+      for (var event in events.events) {
+        var response = await http.get(Config.membersList+"${event.id}", headers: {"Authorization":"Bearer $jwt"});
+        print("Response for event Details = ${response.statusCode}");
+        print("Response Body = ${response.body.toString()}");
+        var temp = Temp.fromJson(response.body.toString());
+        for (var level in temp.levelsInfo) {
+          list.add(FinalEvents(event, level.id));
+        }
+      }
+      return list;
+    }
 
     factory Events.fromJson(List<dynamic> json) => Events(
         events: List<Event>.from(json.map((x) => Event.fromJson(x))),
@@ -55,5 +74,22 @@ class Event {
         "id": id,
         "maxSize": maxTeamSize,
         "minSize": minTeamSize,
+    };
+}
+
+class FinalEvents {
+  Event event;
+  int levelId;
+
+  FinalEvents(this.event, this.levelId);
+
+  factory FinalEvents.fromJson(Map<String, dynamic> json) => FinalEvents(Event.fromJson(json), json["level"]);
+
+  Map<String, dynamic> toJson() => {
+        "name": event.name,
+        "id": event.id,
+        "maxSize": event.maxTeamSize,
+        "minSize": event.minTeamSize,
+        "level": levelId
     };
 }

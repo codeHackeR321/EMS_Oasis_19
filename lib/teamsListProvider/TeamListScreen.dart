@@ -25,7 +25,7 @@ class TeamListScreen extends StatelessWidget {
             },
           ),
         ),
-        body: TeamListWidget(eventId)
+        body: TeamListWidget(eventId, levelId)
       ),
     ),
     );
@@ -34,8 +34,9 @@ class TeamListScreen extends StatelessWidget {
 
 class TeamListWidget extends StatelessWidget {
   String eventId;
+  String levelId;
 
-  TeamListWidget(this.eventId);
+  TeamListWidget(this.eventId, this.levelId);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,7 @@ class TeamListWidget extends StatelessWidget {
              child: RaisedButton(
               child: Text("Add New Team"),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId, levelId: "1",)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId, levelId: levelId,)));
               },
             ),
            ),

@@ -19,14 +19,14 @@ abstract class EventPage with ChangeNotifier {
 }
 
 class EventsListPage extends EventPage {
-  Events listOfEvents;
-  Event selectedEvent;
+  List<FinalEvents> listOfEvents;
+  FinalEvents selectedEvent;
 
   EventsListPage() {
-    listOfEvents = Events(events: []);
+    listOfEvents = [];
     pageTitle = "Events";
     isLoading = true;
-    selectedEvent = Event();
+    selectedEvent = null;
     getEvetnsFromNet();
   }
 
@@ -40,11 +40,11 @@ class EventsListPage extends EventPage {
       print("Fetching userList Successful with code ${response.statusCode}");
       print("Fetching userList Successful with code ${json.decode(response.body.toString()).toString()}");
       if(response.statusCode == 200) {
-        var eventList = eventsFromJson(json.decode(response.body)["events"]);
+        var eventList = await Events.getListOfEvents(json.decode(response.body)["events"]);
         addEventsToDatabase(eventList).then((bool value) async {
           print("Value retuned = ${value}");
-          this.listOfEvents.events = await DatabaseProvider.databaseProvider.getAllEvetns();
-          listOfEvents.events.forEach((event){
+          this.listOfEvents = await DatabaseProvider.databaseProvider.getAllEvetns();
+          listOfEvents.forEach((event){
             print("Reterived Event = ${event.toString()}");
           });
           print("Listener Notified");
@@ -52,7 +52,7 @@ class EventsListPage extends EventPage {
           notifyListeners();
           // bloc.dispatch(ShowEvents(x));
         });
-        listOfEvents = eventsForError();
+        listOfEvents = [];
         isLoading = false;
         notifyListeners();
       } else if(response.statusCode == 401 && json.decode(response.body)["code"].toString() == "token_not_valid") {
@@ -63,15 +63,15 @@ class EventsListPage extends EventPage {
     }catch(e) {
       print("Error in fetching events = ${e.toString()}");
       // Return an empty list of events in case of any error
-      listOfEvents = eventsForError();
+      listOfEvents = [];
       isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<bool> addEventsToDatabase(Events events) async {
+  Future<bool> addEventsToDatabase(List<FinalEvents> events) async {
     DatabaseProvider _database = await DatabaseProvider.databaseProvider;
-    for (var event in events.events) {
+    for (var event in events) {
       var res = await _database.addEvent(event);
       print("Res after adding event to database = ${res.toString()}");
       notifyListeners();
@@ -81,7 +81,7 @@ class EventsListPage extends EventPage {
 
   @override
   String toString() {
-    return "Events List Page with list = ${listOfEvents.events.toString()}\n${this.hashCode}";
+    return "Events List Page with list = ${listOfEvents.toString()}\n${this.hashCode}";
   }
 
   Future<String> getJWTFromSharedPreferences() async {

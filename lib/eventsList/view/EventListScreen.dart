@@ -65,9 +65,9 @@ class _ListOfEventsState extends State<ListOfEvents> {
         }
         else if(state is EventsListLoaded) {
           return new ListView.builder(
-            itemCount: state.eventList.events.length,
+            itemCount: state.eventList.length,
             itemBuilder: (BuildContext context, int index) {
-              return EventsListViewCard(state.eventList.events[index]);
+              return EventsListViewCard(state.eventList[index]);
             },
           );
         }
@@ -77,13 +77,13 @@ class _ListOfEventsState extends State<ListOfEvents> {
 }
 
 class EventsListViewCard extends StatelessWidget {
-  Event event;
+  FinalEvents event;
   EventsListViewCard(this.event);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text(event.name),),
+      child: Center(child: Text("Name: ${event.event.name}\nLevel: ${event.levelId}"),),
     );
   }
 }

@@ -14,7 +14,7 @@ class EventsListBloc extends Bloc<EventsListEvents, EventsListStates> {
     if(event is FetchEvents) {
       if(currentState is LoadingEvents) {
       var events = await _eventsRepository.getEvents();
-      print("Recived Events = ${events.toJson().toString()}");
+      // print("Recived Events = ${events.toJson().toString()}");
       await _eventsRepository.addEventsToDatabase(events).then((bool x) {
         ShowEvents(events);
       });

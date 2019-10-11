@@ -96,15 +96,15 @@ class _EventScreenState extends State<EventScreen> {
       child: eventPage.isLoading ? 
         CircularProgressIndicator() : 
         new ListView.builder(
-          itemCount: eventPage.listOfEvents.events.length,
+          itemCount: eventPage.listOfEvents.length,
           itemBuilder: (BuildContext context, int index) {
-          return EventsListViewCard(eventPage.listOfEvents.events[index], context,state);
+          return EventsListViewCard(eventPage.listOfEvents[index], context,state);
         },
       ),
     );
   }
 
-  Widget EventsListViewCard(Event event, BuildContext context, _EventScreenState state) {
+  Widget EventsListViewCard(FinalEvents event, BuildContext context, _EventScreenState state) {
     return Container(
       child: RaisedButton(
         onPressed: () async {
@@ -123,10 +123,10 @@ class _EventScreenState extends State<EventScreen> {
           setState(() {
            print("Entered Set State"); 
           }); */
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.id.toString(), "1")));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.event.id.toString(), event.levelId.toString())));
         },
         child: Center(
-          child: Text(event.name),
+          child: Text("Name: ${event.event.name}\nLevel: ${event.levelId}"),
           ),
         ),
     );

@@ -29,14 +29,15 @@ class DatabaseProvider {
          id INTEGER PRIMARY KEY,
          name TEXT,
          maxSize INTEGER,
-         minSize INTEGER
+         minSize INTEGER,
+         level INTEGER
        )''');
      });
   }
 
-  addEvent(Event event) async {
+  addEvent(FinalEvents event) async {
     final db = await getDatabase();
-    var map = (event as Event).toJson();
+    var map = (event as FinalEvents).toJson();
     print("Adding event = ${map.toString()}");
     var res = await db.insert('events', map, conflictAlgorithm: ConflictAlgorithm.replace);
     print("Result of Adding event = ${res.toString()}");
@@ -47,7 +48,7 @@ class DatabaseProvider {
     final db = await getDatabase();
     var res = await db.query('events');
     print("Result of query = ${res.toString()}");
-    List<Event> events = res.isNotEmpty ? res.map((event) => Event.fromJson(event)).toList() : <Event>[];
+    List<FinalEvents> events = res.isNotEmpty ? res.map((event) => FinalEvents.fromJson(event)).toList() : <Event>[];
     return events;
   }
 }
