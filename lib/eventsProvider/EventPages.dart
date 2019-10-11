@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ems_oasis_19/eventsList/model/TeamMembers.dart' as prefix0;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ems_oasis_19/eventsList/model/Events.dart';
 import 'package:ems_oasis_19/eventsList/model/TeamMembers.dart';
@@ -100,7 +101,7 @@ class ListOfTeamsPage extends EventPage {
   int eventId;
   int levelId;
   Teams members;
-  Map<Info, TeamMembers> completeTeamMap = Map();
+  Map<TeamInfo1, TeamMembers> completeTeamMap = Map();
 
   ListOfTeamsPage(this.eventId, this.levelId) {
     members = Teams();

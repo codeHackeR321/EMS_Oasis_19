@@ -19,9 +19,9 @@ class TeamMembers {
 
     factory TeamMembers.fromMap(Map<String, dynamic> json) => TeamMembers(
         eventName: json["event_name"],
-        teamInfo: TeamInfo.fromMap(json["team_info"]),
+        teamInfo: TeamInfo.fromMap(json["teams_info"]),
         participationsInfo: List<ParticipationsInfo>.from(json["participations_info"].map((x) => ParticipationsInfo.fromMap(x))),
-        levelsInfo: List<LevelsInfo>.from(json["levels_info"].map((x) => LevelsInfo.fromMap(x))),
+        levelsInfo: List<LevelsInfo>.from(json["level_info"].map((x) => LevelsInfo.fromMap(x))),
     );
 
     Map<String, dynamic> toMap() => {

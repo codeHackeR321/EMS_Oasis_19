@@ -12,6 +12,7 @@ class TeamListModel with ChangeNotifier {
   
   TeamListModel(this.eventId, this.levelId) {
     isLoading = true;
+    teams = Teams();
     getTeamDetailsForEvent(eventId, levelId);
   }
 
@@ -23,8 +24,8 @@ class TeamListModel with ChangeNotifier {
       print("Fetching teamList Successful with code ${response.statusCode}");
       print("Fetching teamList Successful with code ${json.decode(response.body.toString()).toString()}");
       if(response.statusCode == 200) {
-        teams = Teams.fromJson(response.body.toString());
-        print("Fetched Teams = $teams");
+        this.teams = Teams.fromJson(response.body.toString());
+        print("Fetched Teams = ${teams.teamsInfo.toList()}");
         isLoading = false;
         notifyListeners();
       } else if(response.statusCode == 401 && json.decode(response.body)["code"].toString() == "token_not_valid") {
@@ -32,6 +33,7 @@ class TeamListModel with ChangeNotifier {
           getTeamDetailsForEvent(eventId, levelId);
         });
       }
+      notifyListeners();
     } catch(e) {
       print("An Exception occoured while fetching teams = ${e.toString()}");
     }

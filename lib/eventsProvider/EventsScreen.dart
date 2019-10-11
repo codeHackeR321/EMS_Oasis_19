@@ -42,12 +42,7 @@ class _EventScreenState extends State<EventScreen> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(pageTitle),
-          leading: GestureDetector(
-            child: Icon(Icons.arrow_back),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          leading: Container(),
         ),
         body: EventsListOne(this)
       ),

@@ -28,7 +28,11 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return isLoading ? 
+      Center(
+        child: CircularProgressIndicator(),
+      ) :
+      Container(
       child: Center(
         child: Form(
           key: _formKey,
@@ -145,6 +149,7 @@ class _LoginFormState extends State<LoginForm> {
   Future<Null> navigateToNextPage() async { 
     var repo = EventsRepository();
     // repo.getEvents();
+    Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context) => EventScreen()));
    }
 }

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class TeamMemberListScreen extends StatelessWidget {
   String _pageTitle;
   String eventId;
-  Info team;
+  TeamInfo1 team;
   String levelId;
 
   TeamMemberListScreen(this.eventId, this.team, this.levelId){
@@ -39,7 +39,7 @@ class TeamMemberListScreen extends StatelessWidget {
 
 class MembersListWidget extends StatelessWidget {
   String eventId;
-  Info team;
+  TeamInfo1 team;
   String levelId;
 
   MembersListWidget(this.eventId, this.team, this.levelId);

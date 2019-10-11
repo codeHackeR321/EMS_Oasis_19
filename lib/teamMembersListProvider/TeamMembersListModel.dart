@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TeamMembersListModel with ChangeNotifier {
-  Info teamInfo;
+  TeamInfo1 teamInfo;
   String eventId;
   bool isLoading;
   TeamMembers teamMembers;
@@ -16,7 +16,7 @@ class TeamMembersListModel with ChangeNotifier {
     getListOfTeamMembers(eventId, teamInfo);
   }
 
-  Future<Null> getListOfTeamMembers(String eventId, Info team) async {
+  Future<Null> getListOfTeamMembers(String eventId, TeamInfo1 team) async {
     try {
       String jwt = await Config.getJWTFromSharedPreferences();
       print("Recived JWT = $jwt");
@@ -25,6 +25,7 @@ class TeamMembersListModel with ChangeNotifier {
       print("Fetching teamList Successful with code ${json.decode(response.body.toString()).toString()}");
       if(response.statusCode == 200) {
         teamMembers = TeamMembers.fromJson(response.body.toString());
+        print("Team Members recived from net = ${teamMembers.teamInfo.toMap()}");
         isLoading = false;
         notifyListeners();
       } else if(response.statusCode == 401 && json.decode(response.body)["code"].toString() == "token_not_valid") {

@@ -11,6 +11,7 @@ class TeamListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Entered Build Method");
     return ChangeNotifierProvider<TeamListModel>(
       builder: (BuildContext context) => TeamListModel(eventId, levelId),
       child: MaterialApp(
@@ -40,13 +41,17 @@ class TeamListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Entered Build method");
     final TeamListModel _listModel = Provider.of<TeamListModel>(context);
+   /*  _listModel.teams.teamsInfo.forEach((team){
+      print("Data in New variable = ${team.name}\t${team.id}\n");
+    }); */
     return Center(
       child: _listModel.isLoading ? 
         CircularProgressIndicator() :
         Column(
          children: <Widget>[
-           _listModel.teams.teamsInfo.isEmpty ? 
+           _listModel.teams.teamsInfo.isEmpty || _listModel.teams == null ? 
             Center(child: Text("No Teams Registered for this event yet"),) :
             Flexible(
               flex: 1,
@@ -56,9 +61,9 @@ class TeamListWidget extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return Center(
                       child: RaisedButton(
-                        child: Text(_listModel.teams.teamsInfo[index].name),
+                        child: Text("Team \n ${_listModel.teams.teamsInfo[index].name}"),
                         onPressed: () {
-
+                          
                         },
                       ),
                     );
