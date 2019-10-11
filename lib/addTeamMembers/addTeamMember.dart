@@ -1,3 +1,4 @@
+import 'package:ems_oasis_19/eventsList/model/Teams.dart';
 import 'package:flutter/material.dart';
 import 'AddMemberBloc.dart';
 import 'AddMemberStates.dart';
@@ -10,8 +11,10 @@ class AddTeamMemberPage extends StatelessWidget {
   final String pageTitle = "Add Member";
   bool addingTeam;
   String eventId;
+  String levelId;
+  Info teamInfo;
 
-  AddTeamMemberPage({@required this.addingTeam, @required this.eventId});
+  AddTeamMemberPage({@required this.addingTeam, @required this.eventId, @required this.levelId, this.teamInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class AddTeamMemberPage extends StatelessWidget {
             print("Entered Bloc Provider");
             return AddMemberBloc(httpClient: http.Client());
           },
-          child: BlocChild(eventId, addingTeam),
+          child: BlocChild(eventId, addingTeam, levelId, teamInfo),
         ),
       ),
     );
@@ -41,11 +44,13 @@ class AddTeamMemberPage extends StatelessWidget {
 
 class BlocChild extends StatefulWidget {
   @override
-  _BlocChildState createState() => _BlocChildState(eventId, addingTeam);
+  _BlocChildState createState() => _BlocChildState(eventId, addingTeam, levelId, teamInfo: teamInfo);
   String eventId;
   bool addingTeam;
+  String levelId;
+  Info teamInfo;
 
-  BlocChild(this.eventId, this.addingTeam);
+  BlocChild(this.eventId, this.addingTeam, this.levelId, this.teamInfo);
 }
 
 class _BlocChildState extends State<BlocChild> {
@@ -56,8 +61,10 @@ TextEditingController teamNameController = new TextEditingController(text: "");
 QRViewController controller;
 String eventId;
 bool addingTeam;
+String levelId;
+Info teamInfo;
 
-_BlocChildState(this.eventId, this.addingTeam);
+_BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
 
 @override
   void initState() {
@@ -156,7 +163,7 @@ _BlocChildState(this.eventId, this.addingTeam);
                           } else {
                             print("Adding all team members");
                             // (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
-                            _bloc.dispatch(AddNewTeamMembers("Team1", eventId));
+                            _bloc.dispatch(AddNewTeamMembers(teamInfo.name, eventId, "1"));
                           }
                         } : null,
                       ),

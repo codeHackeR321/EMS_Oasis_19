@@ -146,7 +146,7 @@ class EventsListOne extends StatelessWidget {
 
     if(_eventPage is EventsListPage) {
       print("Entered if condition");
-      return screen.EventsListPageWidget(_eventPage as EventsListPage, context, screen);
+      return screen.EventsListPageWidget(_eventPage, context, screen);
     }
     else if(_eventPage is ListOfTeamsPage) {
       print("Current Page Changed to list of teams page");

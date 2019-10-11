@@ -6,8 +6,9 @@ abstract class AddTeamMemberEvents extends Equatable {}
 class AddNewTeamMembers extends AddTeamMemberEvents {
   String teamName;
   String eventId;
+  String levelId;
 
-  AddNewTeamMembers(this.teamName, this.eventId);
+  AddNewTeamMembers(this.teamName, this.eventId, this.levelId);
 
   @override
   String toString() {

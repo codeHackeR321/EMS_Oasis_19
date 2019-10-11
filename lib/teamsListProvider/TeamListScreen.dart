@@ -69,7 +69,7 @@ class TeamListWidget extends StatelessWidget {
              child: RaisedButton(
               child: Text("Add New Team"),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId, levelId: "1",)));
               },
             ),
            ),
