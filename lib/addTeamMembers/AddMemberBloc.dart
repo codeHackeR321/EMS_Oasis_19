@@ -25,7 +25,7 @@ class AddMemberBloc extends Bloc<AddTeamMemberEvents, AddMemberStates> {
           List<String> listOfMembers = (currentState as NoMemberScanned).scannedMembers.toList();
           String team = event.teamName;
           yield AddingNewMember();
-          await _addNewMember(listOfMembers, team, event.eventId, event.levelId);
+          await _addNewMember(listOfMembers, team, event.eventId, event.teamId);
           yield NoMemberScanned();
           /* String code = (currentState as NoMemberScanned).memberCode;
           String team = (currentState as NoMemberScanned).teamName;
@@ -56,10 +56,10 @@ class AddMemberBloc extends Bloc<AddTeamMemberEvents, AddMemberStates> {
     }
   }
 
-  Future<Null> _addNewMember(List<String> codes, String team, String eventId, String levelId) async {
+  Future<Null> _addNewMember(List<String> codes, String team, String eventId, String teamId) async {
     print("Entered Api call with ${codes.toString()} and $team");
     String jwt = await Config.getJWTFromSharedPreferences();
-    httpClient.post(Config.membersList+"$eventId/level/$levelId/update", headers: {"Authorization":"Bearer $jwt"}, body: json.encode({
+    httpClient.post(Config.membersList+"$eventId/team/$teamId/update", headers: {"Authorization":"Bearer $jwt", "Content-Type": "application/json"}, body: json.encode({
       "qr_codes": codes.toList()
     })).then((http.Response response) {
       print("Response Code of adding new team member = ${response.statusCode}");
@@ -68,7 +68,7 @@ class AddMemberBloc extends Bloc<AddTeamMemberEvents, AddMemberStates> {
 
       } else if(response.statusCode == 401 && json.decode(response.body)["code"].toString() == "token_not_valid") {
         Config.refreshJWTToken().then((_) {
-          _addNewMember(codes, team, eventId, levelId);
+          _addNewMember(codes, team, eventId, teamId);
         });
       } else {
         throw("Failed to add team with unKnown exception");
@@ -79,7 +79,7 @@ class AddMemberBloc extends Bloc<AddTeamMemberEvents, AddMemberStates> {
   Future<Null> _addNewTeam(String evetnId, String teamName, List<String> qrCodes, String leader) async {
     print("Entered api call to add team $teamName with members $qrCodes");
     String jwt = await Config.getJWTFromSharedPreferences();
-    httpClient.post(Config.membersList+"$evetnId/team/add", headers: {"Authorization":"Bearer $jwt"}, body: json.encode({
+    httpClient.post(Config.membersList+"$evetnId/team/add", headers: {"Authorization":"Bearer $jwt", "Content-Type": "application/json"}, body: json.encode({
       "name": teamName,
       "leader": leader,
       "participants": qrCodes.toList()

@@ -163,7 +163,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                           } else {
                             print("Adding all team members");
                             // (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
-                            _bloc.dispatch(AddNewTeamMembers(teamInfo.name, eventId, levelId));
+                            _bloc.dispatch(AddNewTeamMembers(teamInfo.name, eventId, teamInfo.id.toString()));
                           }
                         } : null,
                       ),

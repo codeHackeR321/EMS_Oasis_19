@@ -26,7 +26,8 @@ class DatabaseProvider {
      String path = join(documentsDir.path, 'emsApp.db');
      return await openDatabase(path, version: 1, onCreate: (db, version) async {
        await db.execute('''CREATE TABLE events(
-         id INTEGER PRIMARY KEY,
+         uniqueId INTEGER PRIMARY KEY AUTOINCREMENT,
+         id INTEGER ,
          name TEXT,
          maxSize INTEGER,
          minSize INTEGER,
