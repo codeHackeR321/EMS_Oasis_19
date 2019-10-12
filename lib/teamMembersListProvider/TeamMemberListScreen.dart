@@ -54,6 +54,7 @@ class MembersListWidget extends StatelessWidget {
       child: _listModel.isLoading ? 
         CircularProgressIndicator() : 
         Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Flexible(
               flex: 1,
@@ -64,12 +65,22 @@ class MembersListWidget extends StatelessWidget {
                 ListView.builder(
                   itemCount: _listModel.teamMembers.participationsInfo.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Center(
-                      child: Column(
-                        children: <Widget>[
-                          Text(_listModel.teamMembers.participationsInfo[index].name),
-                          Text(_listModel.teamMembers.participationsInfo[index].college)
-                        ],
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Text(_listModel.teamMembers.participationsInfo[index].name),
+                                  Text(_listModel.teamMembers.participationsInfo[index].college)
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     );
                   },

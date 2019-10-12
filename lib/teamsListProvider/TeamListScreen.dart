@@ -60,28 +60,53 @@ class TeamListWidget extends StatelessWidget {
             Flexible(
               flex: 1,
               child: Container(
-                child: ListView.builder(
-                  itemCount: _listModel.teams.teamsInfo.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Center(
-                      child: RaisedButton(
-                        child: Text("Team \n ${_listModel.teams.teamsInfo[index].name}"),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamMemberListScreen(eventId, _listModel.teams.teamsInfo[index],levelId, _listModel)));
-                        },
-                      ),
-                    );
-                  },
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: ListView.builder(
+                    itemCount: _listModel.teams.teamsInfo.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 12.0, 0.0, 0.0),
+                        child: Container(
+                          width: double.infinity,
+                          child: RaisedButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Team \n ${_listModel.teams.teamsInfo[index].name}",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),),
+                            ),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TeamMemberListScreen(eventId, _listModel.teams.teamsInfo[index],levelId, _listModel)));
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
            Container(
-             child: RaisedButton(
-              child: Text("Add New Team"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId, levelId: levelId,)));
-              },
+             width: double.infinity,
+             child: Padding(
+               padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 0.0),
+               child: RaisedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text("Add New Team",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId, levelId: levelId,)));
+                },
             ),
+             ),
            ),
          ], 
         ),

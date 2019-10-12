@@ -37,36 +37,56 @@ class _LoginFormState extends State<LoginForm> {
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment:MainAxisAlignment.center,
             children: <Widget>[
-              TextFormField(
-                controller: userNameController,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: "Enter Username"
+              SizedBox(height: 24.0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+                child: Text(
+                 'Login',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 32.0
+                  ),
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
               ),
-              TextFormField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Enter Password"
+              SizedBox(height: 24.0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0,0.0,16.0,8.0),
+                child: TextFormField(
+                  controller: userNameController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: "Enter Username"
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text2';
-                  }
-                  return null;
-                },
+              ),
+              SizedBox(height: 24.0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0,0.0,16.0,8.0),
+                child: TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: "Enter Password"
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text2';
+                    }
+                    return null;
+                  },
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.fromLTRB(16.0,0.0,16.0,8.0),
                 child: RaisedButton(
                   onPressed: () {
                     /* widget.parent.setState(() {

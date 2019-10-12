@@ -88,13 +88,19 @@ class _EventScreenState extends State<EventScreen> {
   Widget EventsListPageWidget(EventsListPage eventPage, BuildContext context, _EventScreenState state) {
     print("Entered widget function");
      return Center(
-      child: eventPage.isLoading ? 
-        CircularProgressIndicator() : 
-        new ListView.builder(
-          itemCount: eventPage.listOfEvents.length,
-          itemBuilder: (BuildContext context, int index) {
-          return EventsListViewCard(eventPage.listOfEvents[index], context,state, eventPage);
-        },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: eventPage.isLoading ?
+          CircularProgressIndicator() :
+          new ListView.builder(
+            itemCount: eventPage.listOfEvents.length,
+            itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,12.0),
+              child: EventsListViewCard(eventPage.listOfEvents[index], context,state, eventPage)
+            );
+          },
+        ),
       ),
     );
   }
@@ -121,7 +127,14 @@ class _EventScreenState extends State<EventScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.event.id.toString(), event.levelId.toString(), eventPage)));
         },
         child: Center(
-          child: Text("Name: ${event.event.name}\nLevel: ${event.levelId}"),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Name: ${event.event.name}\nLevel: ${event.levelId}",
+            style: TextStyle(
+              fontSize: 16.0
+            ),
+            ),
+          ),
           ),
         ),
     );
