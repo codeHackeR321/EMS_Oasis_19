@@ -126,7 +126,10 @@ class _EventScreenState extends State<EventScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.id.toString(), "1")));
         },
         child: Center(
-          child: Text(event.name),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(event.name),
+          ),
           ),
         ),
     );
