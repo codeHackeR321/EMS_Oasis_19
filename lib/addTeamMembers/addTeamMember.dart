@@ -1,4 +1,5 @@
 import 'package:ems_oasis_19/eventsList/model/Teams.dart';
+import 'package:ems_oasis_19/teamMembersListProvider/TeamMembersListModel.dart';
 import 'package:flutter/material.dart';
 import 'AddMemberBloc.dart';
 import 'AddMemberStates.dart';
@@ -13,8 +14,9 @@ class AddTeamMemberPage extends StatelessWidget {
   String eventId;
   String levelId;
   TeamInfo1 teamInfo;
+  TeamMembersListModel model;
 
-  AddTeamMemberPage({@required this.addingTeam, @required this.eventId, @required this.levelId, this.teamInfo});
+  AddTeamMemberPage({@required this.addingTeam, @required this.eventId, @required this.levelId, this.teamInfo, this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class AddTeamMemberPage extends StatelessWidget {
           leading: GestureDetector(
             child: Icon(Icons.arrow_back_ios),
             onTap: () {
+              model.getListOfTeamMembers(model.eventId, model.teamInfo);
               Navigator.of(context).pop();
             },
           ),

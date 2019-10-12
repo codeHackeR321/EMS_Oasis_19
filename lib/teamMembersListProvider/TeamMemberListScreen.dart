@@ -1,6 +1,7 @@
 import 'package:ems_oasis_19/addTeamMembers/addTeamMember.dart';
 import 'package:ems_oasis_19/eventsList/model/Teams.dart';
 import 'package:ems_oasis_19/teamMembersListProvider/TeamMembersListModel.dart';
+import 'package:ems_oasis_19/teamsListProvider/TeamListModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +10,9 @@ class TeamMemberListScreen extends StatelessWidget {
   String eventId;
   TeamInfo1 team;
   String levelId;
+  TeamListModel listModel;
 
-  TeamMemberListScreen(this.eventId, this.team, this.levelId){
+  TeamMemberListScreen(this.eventId, this.team, this.levelId, this.listModel){
     _pageTitle = team.name;
   }
 
@@ -26,6 +28,7 @@ class TeamMemberListScreen extends StatelessWidget {
           leading: GestureDetector(
             child: Icon(Icons.arrow_back),
             onTap: () {
+              listModel.getTeamDetailsForEvent(listModel.eventId, listModel.levelId);
               Navigator.of(context).pop();
             },
           ),
@@ -76,7 +79,7 @@ class MembersListWidget extends StatelessWidget {
               child: RaisedButton(
                 child: Text("Add Team Member"),
                 onPressed: () async {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: false,eventId: eventId, levelId:levelId ,teamInfo: team,))); 
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: false,eventId: eventId, levelId:levelId ,teamInfo: team, model: _listModel))); 
                 },
               ),
             )

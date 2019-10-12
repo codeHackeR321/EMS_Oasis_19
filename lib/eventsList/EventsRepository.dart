@@ -35,10 +35,8 @@ class EventsRepository {
 
   Future<bool> addEventsToDatabase(List<FinalEvents> events) async {
     DatabaseProvider _database = await DatabaseProvider.databaseProvider;
-    for (var event in events) {
-      var res = await _database.addEvent(event);
-      print("Res after adding event to database = ${res.toString()}");
-    }
+    var res = await _database.addEvent(events);
+    print("Res after adding event to database = ${res.toString()}");
     return true;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:ems_oasis_19/addTeamMembers/addTeamMember.dart';
+import 'package:ems_oasis_19/eventsProvider/EventPages.dart';
 import 'package:ems_oasis_19/teamMembersListProvider/TeamMemberListScreen.dart';
 import 'package:ems_oasis_19/teamsListProvider/TeamListModel.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,9 @@ import 'package:provider/provider.dart';
 class TeamListScreen extends StatelessWidget {
   final String _pageTitle = "Teams";
   String eventId, levelId;
+  EventPage eventPage;
 
-  TeamListScreen(this.eventId, this.levelId);
+  TeamListScreen(this.eventId, this.levelId, this.eventPage);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class TeamListScreen extends StatelessWidget {
           leading: GestureDetector(
             child: Icon(Icons.arrow_back),
             onTap: () {
+              (eventPage as EventsListPage).getEvetnsFromNet();
               Navigator.of(context).pop();
             },
           ),
@@ -64,7 +67,7 @@ class TeamListWidget extends StatelessWidget {
                       child: RaisedButton(
                         child: Text("Team \n ${_listModel.teams.teamsInfo[index].name}"),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamMemberListScreen(eventId, _listModel.teams.teamsInfo[index],levelId)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamMemberListScreen(eventId, _listModel.teams.teamsInfo[index],levelId, _listModel)));
                         },
                       ),
                     );

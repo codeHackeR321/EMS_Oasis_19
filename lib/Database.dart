@@ -36,12 +36,17 @@ class DatabaseProvider {
      });
   }
 
-  addEvent(FinalEvents event) async {
+  addEvent(List<FinalEvents> events) async {
     final db = await getDatabase();
-    var map = (event as FinalEvents).toJson();
-    print("Adding event = ${map.toString()}");
-    var res = await db.insert('events', map, conflictAlgorithm: ConflictAlgorithm.replace);
-    print("Result of Adding event = ${res.toString()}");
+    db.delete("events");
+    var res;
+    for(FinalEvents event in events)
+    {
+      var map = (event as FinalEvents).toJson();
+      print("Adding event = ${map.toString()}");
+      res = await db.insert('events', map, conflictAlgorithm: ConflictAlgorithm.replace);
+      print("Result of Adding event = ${res.toString()}");
+    }
     return res;
   }
 

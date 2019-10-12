@@ -93,13 +93,13 @@ class _EventScreenState extends State<EventScreen> {
         new ListView.builder(
           itemCount: eventPage.listOfEvents.length,
           itemBuilder: (BuildContext context, int index) {
-          return EventsListViewCard(eventPage.listOfEvents[index], context,state);
+          return EventsListViewCard(eventPage.listOfEvents[index], context,state, eventPage);
         },
       ),
     );
   }
 
-  Widget EventsListViewCard(FinalEvents event, BuildContext context, _EventScreenState state) {
+  Widget EventsListViewCard(FinalEvents event, BuildContext context, _EventScreenState state, EventPage eventPage) {
     return Container(
       child: RaisedButton(
         onPressed: () async {
@@ -118,7 +118,7 @@ class _EventScreenState extends State<EventScreen> {
           setState(() {
            print("Entered Set State"); 
           }); */
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.event.id.toString(), event.levelId.toString())));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.event.id.toString(), event.levelId.toString(), eventPage)));
         },
         child: Center(
           child: Text("Name: ${event.event.name}\nLevel: ${event.levelId}"),
