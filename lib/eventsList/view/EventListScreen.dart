@@ -64,6 +64,7 @@ class _ListOfEventsState extends State<ListOfEvents> {
           );
         }
         else if(state is EventsListLoaded) {
+/*<<<<<<< HEAD
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: new ListView.builder(
@@ -72,6 +73,12 @@ class _ListOfEventsState extends State<ListOfEvents> {
                 return EventsListViewCard(state.eventList.events[index]);
               },
             ),
+=======*/
+          return new ListView.builder(
+            itemCount: state.eventList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return EventsListViewCard(state.eventList[index]);
+            },
           );
         }
       },
@@ -80,11 +87,12 @@ class _ListOfEventsState extends State<ListOfEvents> {
 }
 
 class EventsListViewCard extends StatelessWidget {
-  Event event;
+  FinalEvents event;
   EventsListViewCard(this.event);
 
   @override
   Widget build(BuildContext context) {
+/*<<<<<<< HEAD
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -98,6 +106,10 @@ class EventsListViewCard extends StatelessWidget {
           ),
         ),
       ),
+=======*/
+    return Container(
+      child: Center(child: Text("Name: ${event.event.name}\nLevel: ${event.levelId}"),),
+
     );
   }
 }

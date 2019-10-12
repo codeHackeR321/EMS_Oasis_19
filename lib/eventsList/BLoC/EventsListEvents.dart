@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 abstract class EventsListEvents extends Equatable {}
 
 class ShowEvents extends EventsListEvents {
-  Events eventList;
+  List<FinalEvents> eventList;
 
   ShowEvents(this.eventList);
 

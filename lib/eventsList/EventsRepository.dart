@@ -12,33 +12,30 @@ import 'package:sqflite/sqflite.dart';
 
 class EventsRepository {
 
-  Future<Events> getEvents() async {
+  Future<List<FinalEvents>> getEvents() async {
     try{
       // Response response = await _dio.get(Config.eventsListUrl);
       // Response response = await _dio.get("http://www.mocky.io/v2/5d87a658340000b67c0a1566");
       var response = await http.get("http://www.mocky.io/v2/5d87a658340000b67c0a1566");
       print("Fetching userList Successful with code ${response.statusCode}");
       print("Fetching userList Successful with code ${json.decode(response.body.toString()).toString()}");
-      var eventList = eventsFromJson(json.decode(response.body)["events"]);
+      var eventList = await Events.getListOfEvents(json.decode(response.body)["events"]);
       addEventsToDatabase(eventList).then((bool value) async {
         print("Value retuned = ${value}");
         var x = await getEvents();
-        x.events.forEach((event){
-          print("Reterived Event = ${event.toString()}");
-        });
         // bloc.dispatch(ShowEvents(x));
       });
-      return eventsForError();
+      return [];
     }catch(e) {
       print("Error in fetching events = ${e.toString()}");
       // Return an empty list of events in case of any error
-      return eventsForError();
+      return [];
     }
   }
 
-  Future<bool> addEventsToDatabase(Events events) async {
+  Future<bool> addEventsToDatabase(List<FinalEvents> events) async {
     DatabaseProvider _database = await DatabaseProvider.databaseProvider;
-    for (var event in events.events) {
+    for (var event in events) {
       var res = await _database.addEvent(event);
       print("Res after adding event to database = ${res.toString()}");
     }

@@ -42,12 +42,7 @@ class _EventScreenState extends State<EventScreen> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(pageTitle),
-          leading: GestureDetector(
-            child: Icon(Icons.arrow_back),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          leading: Container(),
         ),
         body: EventsListOne(this)
       ),
@@ -93,18 +88,24 @@ class _EventScreenState extends State<EventScreen> {
   Widget EventsListPageWidget(EventsListPage eventPage, BuildContext context, _EventScreenState state) {
     print("Entered widget function");
      return Center(
-      child: eventPage.isLoading ? 
-        CircularProgressIndicator() : 
-        new ListView.builder(
-          itemCount: eventPage.listOfEvents.events.length,
-          itemBuilder: (BuildContext context, int index) {
-          return EventsListViewCard(eventPage.listOfEvents.events[index], context,state);
-        },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: eventPage.isLoading ?
+          CircularProgressIndicator() :
+          new ListView.builder(
+            itemCount: eventPage.listOfEvents.length,
+            itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,12.0),
+              child: EventsListViewCard(eventPage.listOfEvents[index], context,state),
+            );
+          },
+        ),
       ),
     );
   }
 
-  Widget EventsListViewCard(Event event, BuildContext context, _EventScreenState state) {
+  Widget EventsListViewCard(FinalEvents event, BuildContext context, _EventScreenState state) {
     return Container(
       child: RaisedButton(
         onPressed: () async {
@@ -123,12 +124,16 @@ class _EventScreenState extends State<EventScreen> {
           setState(() {
            print("Entered Set State"); 
           }); */
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.id.toString(), "1")));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.event.id.toString(), event.levelId.toString())));
         },
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(event.name),
+            child: Text("Name: ${event.event.name}\nLevel: ${event.levelId}",
+            style: TextStyle(
+              fontSize: 16.0
+            ),
+            ),
           ),
           ),
         ),
@@ -149,7 +154,7 @@ class EventsListOne extends StatelessWidget {
 
     if(_eventPage is EventsListPage) {
       print("Entered if condition");
-      return screen.EventsListPageWidget(_eventPage as EventsListPage, context, screen);
+      return screen.EventsListPageWidget(_eventPage, context, screen);
     }
     else if(_eventPage is ListOfTeamsPage) {
       print("Current Page Changed to list of teams page");

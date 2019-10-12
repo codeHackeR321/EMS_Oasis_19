@@ -3,7 +3,7 @@ import 'dart:convert';
 class Teams {
     Info eventInfo;
     Info levelInfo;
-    List<Info> teamsInfo;
+    List<TeamInfo1> teamsInfo;
 
     Teams({
         this.eventInfo,
@@ -22,7 +22,7 @@ class Teams {
     factory Teams.fromMap(Map<String, dynamic> json) => Teams(
         eventInfo: Info.fromMap(json["event_info"]),
         levelInfo: Info.fromMap(json["level_info"]),
-        teamsInfo: List<Info>.from(json["teams_info"].map((x) => Info.fromMap(x))),
+        teamsInfo: List<TeamInfo1>.from(json["teams_info"].map((x) => TeamInfo1.fromMap(x))),
     );
 
     Map<String, dynamic> toMap() => {
@@ -53,5 +53,31 @@ class Info {
     Map<String, dynamic> toMap() => {
         "name": name,
         "id": id,
+    };
+}
+
+class TeamInfo1 {
+  String name;
+  int totalScore;
+  int id;
+
+  TeamInfo1({
+    this.name="",
+    this.totalScore=0,
+    this.id=0
+  });
+
+  factory TeamInfo1.fromJson(String str) => TeamInfo1.fromMap(json.decode(str));
+
+  factory TeamInfo1.fromMap(Map<String, dynamic> json) => TeamInfo1(
+    name: json["name"],
+    totalScore: json["score"],
+    id: json["id"]
+  );
+
+  Map<String, dynamic> toMap() => {
+        "name": name,
+        "score": totalScore,
+        "id": id
     };
 }

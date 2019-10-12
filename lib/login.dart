@@ -28,7 +28,11 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return isLoading ? 
+      Center(
+        child: CircularProgressIndicator(),
+      ) :
+      Container(
       child: Center(
         child: Form(
           key: _formKey,
@@ -121,8 +125,10 @@ class _LoginFormState extends State<LoginForm> {
       }),
        headers: {"Content-Type": "application/json"}
     ).then((http.Response response) async {
+        print("Login response = ${response.body.toString()}");
         if(response.statusCode == 200) {
           var body = json.decode(response.body);
+          print("Login Body = ${body.toString()}");
           try{
             String jwt = body["access"];
             String refresh = body["refresh"];
@@ -163,6 +169,7 @@ class _LoginFormState extends State<LoginForm> {
   Future<Null> navigateToNextPage() async { 
     var repo = EventsRepository();
     // repo.getEvents();
+    Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context) => EventScreen()));
    }
 }

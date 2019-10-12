@@ -32,7 +32,7 @@ class EventsModel {
       var page = currentPage as EventsListPage;
       // TODO: Change the hardcode-ed level number
       print("Changing current page");
-      currentPage = ListOfTeamsPage(page.selectedEvent.id, 1);
+      currentPage = ListOfTeamsPage(page.selectedEvent.event.id, page.selectedEvent.levelId);
       page.notifyListeners();
       return this;
     }

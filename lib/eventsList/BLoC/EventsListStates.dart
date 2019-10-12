@@ -20,7 +20,7 @@ class ErrorLoadingEvents extends EventsListStates {
 }
 
 class EventsListLoaded extends EventsListStates {
-  Events eventList;
+  List<FinalEvents> eventList;
 
   EventsListLoaded(this.eventList);
 
