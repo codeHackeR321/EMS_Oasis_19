@@ -1,0 +1,11 @@
+For the login screen, there is only one file, login.dart.
+The UI of the screen is decided by the function Login form.
+
+For the list of events screen, the file in use is within the eventsProvider folder, names EvetnsScreen. 
+The function EventsListViewCard is to be modified to change the ui of the card of the list view 
+
+For the list of members of an event, the file used is TeamMemberListScreen under TeamMembersListProvider
+The MembersListWidget function determines the UI of the screen
+
+The UI for adding new members, or teams is in the AddTeamMember.dart file
+The Ui has the main parent as BlocChild function, while it uses other functions within the same file as helper functions
