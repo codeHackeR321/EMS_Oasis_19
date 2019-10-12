@@ -1,4 +1,5 @@
 import 'package:ems_oasis_19/addTeamMembers/addTeamMember.dart';
+import 'package:ems_oasis_19/teamMembersListProvider/TeamMemberListScreen.dart';
 import 'package:ems_oasis_19/teamsListProvider/TeamListModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +64,7 @@ class TeamListWidget extends StatelessWidget {
                       child: RaisedButton(
                         child: Text("Team \n ${_listModel.teams.teamsInfo[index].name}"),
                         onPressed: () {
-                          
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamMemberListScreen(eventId, _listModel.teams.teamsInfo[index],levelId)));
                         },
                       ),
                     );

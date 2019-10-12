@@ -20,9 +20,9 @@ class TeamMembersListModel with ChangeNotifier {
     try {
       String jwt = await Config.getJWTFromSharedPreferences();
       print("Recived JWT = $jwt");
-      var response = await http.get(Config.membersList+"/${eventId.toString()}/team/${team.id}/details", headers: {"Authorization":"Bearer $jwt"});
+      var response = await http.get(Config.membersList+"${eventId.toString()}/team/${team.id}/details", headers: {"Authorization":"Bearer $jwt"});
       print("Fetching teamList Successful with code ${response.statusCode}");
-      print("Fetching teamList Successful with code ${json.decode(response.body.toString()).toString()}");
+      print("Fetching teamList Successful with code ${response.body.toString()}");
       if(response.statusCode == 200) {
         teamMembers = TeamMembers.fromJson(response.body.toString());
         print("Team Members recived from net = ${teamMembers.teamInfo.toMap()}");
