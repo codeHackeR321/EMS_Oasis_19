@@ -83,31 +83,51 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: <Widget>[
-                  addingTeam ? 
+                  addingTeam ?
                     Center(
-                      child: TextField(
-                        controller: teamNameController,
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          hintText: "Enter Team"
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                          controller: teamNameController,
+                          autofocus: false,
+                          decoration: InputDecoration(
+                            hintText: "Enter Team"
+                          ),
                         ),
                       ),
-                    ): 
+                    ):
                     Container(),
                   Flexible(
                     flex: 2,
                     child: ListView.builder(
                       itemCount: (state as NoMemberScanned).scannedMembers.toList().length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Center(child: Text((state as NoMemberScanned).scannedMembers.toList()[index]),);
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                (state as NoMemberScanned).scannedMembers.toList()[index],
+                             textAlign: TextAlign.center,
+                              style:TextStyle(
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          )
+                          ,);
                       },
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(16.0),
                     child: TextField(
                       controller: codeController,
                       autofocus: false,
+                      style: TextStyle(
+                        fontSize: 18.0
+                      ),
                       decoration: InputDecoration(
                         hintText: "Enter unique code"
                       ),
@@ -130,42 +150,122 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                       },
                     ),
                   ),
-                  Expanded(
+                  /*Expanded(
                     flex: 1,
-                    child: Center(
-                      child: RaisedButton(
-                        child: Text("Add Member"),
-                        /* To disable the button, we need to pass null in the onPressed field
-                          Currently, the button is disabled if the loader is visible, or there is no text in the text field*/
-                        onPressed: codeController.text.isNotEmpty ? () {
-                          print("Added Member = ${codeController.text}");
-                          setState(() {
-                          (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
-                          codeController.text = ""; 
-                          });
-                          // Navigator.of(context).pop();
-                        } : null,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+
+                           RaisedButton(
+
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text("Add Member",
+                                style: TextStyle(
+                                  fontSize: 16.0
+                                ),),
+                              ),
+                            ),
+                            *//* To disable the button, we need to pass null in the onPressed field
+                              Currently, the button is disabled if the loader is visible, or there is no text in the text field*//*
+                            onPressed: codeController.text.isNotEmpty ? () {
+                              print("Added Member = ${codeController.text}");
+                              setState(() {
+                                (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                                codeController.text = "";
+                              });
+                              // Navigator.of(context).pop();
+                            } : null,
+                          ),
+
+                         Padding(
+                           padding: const EdgeInsets.all(12.0),
+                           child: RaisedButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: addingTeam ? Text("Create New Team",
+                              style: TextStyle(
+                                fontSize: 16.0
+                              ),) : Text("Add All Team Members"),
+                            ),
+                            onPressed: (state as NoMemberScanned).scannedMembers.isNotEmpty ? () {
+                              if(addingTeam) {
+                                if(teamNameController.text.isNotEmpty) {
+                                  print("Adding Team");
+                                  var qrCodes = (_bloc.currentState as NoMemberScanned).scannedMembers;
+                                  _bloc.dispatch(AddNewTeam(eventId: eventId, teamName: teamNameController.text, qrCodes: qrCodes.toList(), leader: qrCodes.toList()[0]));
+                                }
+                              } else {
+                                print("Adding all team members");
+                                // (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                                _bloc.dispatch(AddNewTeamMembers(teamInfo.name, eventId, teamInfo.id.toString()));
+                              }
+                            } : null,
+                        ),
+                         ),
+
+                      ],
+                    ),
+                  ),*/
+                   Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("Add Member",),
+                              ),
+                            /* To disable the button, we need to pass null in the onPressed field
+                              Currently, the button is disabled if the loader is visible, or there is no text in the text field*/
+                            onPressed: codeController.text.isNotEmpty ? () {
+                              print("Added Member = ${codeController.text}");
+                              setState(() {
+                              (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                              codeController.text = "";
+                              });
+                              // Navigator.of(context).pop();
+                            } : null,
+                          ),
+                        ),
+
                     ),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Center(
-                      child: RaisedButton(
-                        child: addingTeam ? Text("Create New Team") : Text("Add All Team Members"),
-                        onPressed: (state as NoMemberScanned).scannedMembers.isNotEmpty ? () {
-                          if(addingTeam) {
-                            if(teamNameController.text.isNotEmpty) {
-                              print("Adding Team");
-                              var qrCodes = (_bloc.currentState as NoMemberScanned).scannedMembers;
-                              _bloc.dispatch(AddNewTeam(eventId: eventId, teamName: teamNameController.text, qrCodes: qrCodes.toList(), leader: qrCodes.toList()[0]));
-                            }
-                          } else {
-                            print("Adding all team members");
-                            // (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
-                            _bloc.dispatch(AddNewTeamMembers(teamInfo.name, eventId, teamInfo.id.toString()));
-                          }
-                        } : null,
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                      child: Container(
+                        width: double.infinity,
+
+                          child: RaisedButton(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: addingTeam ? Text("Create New Team") : Text("Add All Team Members"),
+                                ),
+                              ),
+
+                            onPressed: (state as NoMemberScanned).scannedMembers.isNotEmpty ? () {
+                              if(addingTeam) {
+                                if(teamNameController.text.isNotEmpty) {
+                                  print("Adding Team");
+                                  var qrCodes = (_bloc.currentState as NoMemberScanned).scannedMembers;
+                                  _bloc.dispatch(AddNewTeam(eventId: eventId, teamName: teamNameController.text, qrCodes: qrCodes.toList(), leader: qrCodes.toList()[0]));
+                                }
+                              } else {
+                                print("Adding all team members");
+                                // (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                                _bloc.dispatch(AddNewTeamMembers(teamInfo.name, eventId, teamInfo.id.toString()));
+                              }
+                            } : null,
+                          ),
+
                       ),
                     ),
                   ),
@@ -235,7 +335,7 @@ class _AddTeamMemberWidgetState extends State<AddTeamMemberWidget> {
                     print("Added Member = ${codeController.text}");
                     setState(() {
                       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Team Member Added!!"),));
-                      // isLoading = !isLoading; 
+                      // isLoading = !isLoading;
                     });
                     // Navigator.of(context).pop();
                   } : null,
