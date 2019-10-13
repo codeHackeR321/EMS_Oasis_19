@@ -13,7 +13,7 @@ class AddTeamMemberPage extends StatelessWidget {
   bool addingTeam;
   String eventId;
   String levelId;
-  TeamInfo1 teamInfo;
+  Info teamInfo;
   TeamMembersListModel model;
 
   AddTeamMemberPage({@required this.addingTeam, @required this.eventId, @required this.levelId, this.teamInfo, this.model});
@@ -51,7 +51,7 @@ class BlocChild extends StatefulWidget {
   String eventId;
   bool addingTeam;
   String levelId;
-  TeamInfo1 teamInfo;
+  Info teamInfo;
 
   BlocChild(this.eventId, this.addingTeam, this.levelId, this.teamInfo);
 }
@@ -65,7 +65,7 @@ QRViewController controller;
 String eventId;
 bool addingTeam;
 String levelId;
-TeamInfo1 teamInfo;
+Info teamInfo;
 
 _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
 

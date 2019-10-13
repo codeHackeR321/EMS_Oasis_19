@@ -93,15 +93,50 @@ class _EventScreenState extends State<EventScreen> {
         child: eventPage.isLoading ?
           CircularProgressIndicator() :
           new ListView.builder(
-            itemCount: eventPage.listOfEvents.length,
+            itemCount: eventPage.listEvents.length,
             itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,12.0),
-              child: EventsListViewCard(eventPage.listOfEvents[index], context,state, eventPage)
+              child: EventsListViewCard1(eventPage.listEvents[index], context,state, eventPage)
             );
           },
         ),
       ),
+    );
+  }
+
+  Widget EventsListViewCard1(Event event, BuildContext context, _EventScreenState state, EventPage eventPage) {
+    return Container(
+      child: RaisedButton(
+        onPressed: () async {
+          print("Button Pressed");
+          /* (_eventsModel.currentPage as EventsListPage).selectedEvent = event;
+          _eventsModel.navigateToNextPage(context).then((EventsModel em) {
+            setState(() {
+             this.pageTitle = _eventsModel.pageTitle; 
+             this._eventsModel = EventsModel(ListOfTeamsPage(event.id, 1));
+            });;
+          }); */
+          /* var teamPage = ListOfTeamsPage(event.id, 1);
+          await teamPage.getMembersFromNet();
+          var eventsModel = EventsModel(teamPage);
+          state._eventsModel = eventsModel;
+          setState(() {
+           print("Entered Set State"); 
+          }); */
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.id.toString(), eventPage)));
+        },
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Name: ${event.name}",
+            style: TextStyle(
+              fontSize: 16.0
+            ),
+            ),
+          ),
+          ),
+        ),
     );
   }
 
@@ -124,7 +159,7 @@ class _EventScreenState extends State<EventScreen> {
           setState(() {
            print("Entered Set State"); 
           }); */
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.event.id.toString(), event.levelId.toString(), eventPage)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TeamListScreen(event.event.id.toString(), eventPage)));
         },
         child: Center(
           child: Padding(

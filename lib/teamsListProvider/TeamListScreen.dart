@@ -7,16 +7,16 @@ import 'package:provider/provider.dart';
 
 class TeamListScreen extends StatelessWidget {
   final String _pageTitle = "Teams";
-  String eventId, levelId;
+  String eventId;
   EventPage eventPage;
 
-  TeamListScreen(this.eventId, this.levelId, this.eventPage);
+  TeamListScreen(this.eventId, this.eventPage);
 
   @override
   Widget build(BuildContext context) {
     print("Entered Build Method");
     return ChangeNotifierProvider<TeamListModel>(
-      builder: (BuildContext context) => TeamListModel(eventId, levelId),
+      builder: (BuildContext context) => TeamListModel(eventId),
       child: MaterialApp(
       title: _pageTitle,
       home: Scaffold(
@@ -30,7 +30,7 @@ class TeamListScreen extends StatelessWidget {
             },
           ),
         ),
-        body: TeamListWidget(eventId, levelId)
+        body: TeamListWidget(eventId)
       ),
     ),
     );
@@ -39,9 +39,8 @@ class TeamListScreen extends StatelessWidget {
 
 class TeamListWidget extends StatelessWidget {
   String eventId;
-  String levelId;
 
-  TeamListWidget(this.eventId, this.levelId);
+  TeamListWidget(this.eventId);
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +78,7 @@ class TeamListWidget extends StatelessWidget {
                               ),),
                             ),
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => TeamMemberListScreen(eventId, _listModel.teams.teamsInfo[index],levelId, _listModel)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TeamMemberListScreen(eventId, _listModel.teams.teamsInfo[index], _listModel)));
                             },
                           ),
                         ),
@@ -103,7 +102,7 @@ class TeamListWidget extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId, levelId: levelId,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId,)));
                 },
             ),
              ),

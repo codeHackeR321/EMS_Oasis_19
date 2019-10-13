@@ -56,7 +56,6 @@ class _LoginFormState extends State<LoginForm> {
                 padding: const EdgeInsets.fromLTRB(16.0,0.0,16.0,8.0),
                 child: TextFormField(
                   controller: userNameController,
-                  autofocus: true,
                   decoration: InputDecoration(
                     hintText: "Enter Username"
                   ),

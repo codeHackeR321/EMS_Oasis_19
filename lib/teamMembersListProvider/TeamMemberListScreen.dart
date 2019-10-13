@@ -8,11 +8,10 @@ import 'package:provider/provider.dart';
 class TeamMemberListScreen extends StatelessWidget {
   String _pageTitle;
   String eventId;
-  TeamInfo1 team;
-  String levelId;
+  Info team;
   TeamListModel listModel;
 
-  TeamMemberListScreen(this.eventId, this.team, this.levelId, this.listModel){
+  TeamMemberListScreen(this.eventId, this.team, this.listModel){
     _pageTitle = team.name;
   }
 
@@ -28,12 +27,12 @@ class TeamMemberListScreen extends StatelessWidget {
           leading: GestureDetector(
             child: Icon(Icons.arrow_back),
             onTap: () {
-              listModel.getTeamDetailsForEvent(listModel.eventId, listModel.levelId);
+              listModel.getTeamDetailsForEvent(listModel.eventId);
               Navigator.of(context).pop();
             },
           ),
         ),
-        body: MembersListWidget(eventId, team, levelId)
+        body: MembersListWidget(eventId, team)
       ),
     ),
     );
@@ -42,10 +41,9 @@ class TeamMemberListScreen extends StatelessWidget {
 
 class MembersListWidget extends StatelessWidget {
   String eventId;
-  TeamInfo1 team;
-  String levelId;
+  Info team;
 
-  MembersListWidget(this.eventId, this.team, this.levelId);
+  MembersListWidget(this.eventId, this.team);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +88,7 @@ class MembersListWidget extends StatelessWidget {
               child: RaisedButton(
                 child: Text("Add Team Member"),
                 onPressed: () async {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: false,eventId: eventId, levelId:levelId ,teamInfo: team, model: _listModel))); 
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: false,eventId: eventId ,teamInfo: team, model: _listModel))); 
                 },
               ),
             )

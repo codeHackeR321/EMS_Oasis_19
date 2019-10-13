@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TeamMembersListModel with ChangeNotifier {
-  TeamInfo1 teamInfo;
+  Info teamInfo;
   String eventId;
   bool isLoading;
   TeamMembers teamMembers;
@@ -16,7 +16,7 @@ class TeamMembersListModel with ChangeNotifier {
     getListOfTeamMembers(eventId, teamInfo);
   }
 
-  Future<Null> getListOfTeamMembers(String eventId, TeamInfo1 team) async {
+  Future<Null> getListOfTeamMembers(String eventId, Info team) async {
     try {
       String jwt = await Config.getJWTFromSharedPreferences();
       print("Recived JWT = $jwt");

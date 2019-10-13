@@ -22,6 +22,7 @@ abstract class EventPage with ChangeNotifier {
 class EventsListPage extends EventPage {
   List<FinalEvents> listOfEvents;
   FinalEvents selectedEvent;
+  List<Event> listEvents = [];
 
   EventsListPage() {
     listOfEvents = [];
@@ -42,6 +43,7 @@ class EventsListPage extends EventPage {
       print("Fetching userList Successful with code ${json.decode(response.body.toString()).toString()}");
       if(response.statusCode == 200) {
         var eventList = await Events.getListOfEvents(json.decode(response.body)["events"]);
+        listEvents = Events.fromJson(json.decode(response.body)["events"]).events;
         addEventsToDatabase(eventList).then((bool value) async {
           print("Value retuned = ${value}");
           this.listOfEvents = await DatabaseProvider.databaseProvider.getAllEvetns();
@@ -99,7 +101,7 @@ class ListOfTeamsPage extends EventPage {
   int eventId;
   int levelId;
   Teams members;
-  Map<TeamInfo1, TeamMembers> completeTeamMap = Map();
+  Map<Info, TeamMembers> completeTeamMap = Map();
 
   ListOfTeamsPage(this.eventId, this.levelId) {
     members = Teams();
