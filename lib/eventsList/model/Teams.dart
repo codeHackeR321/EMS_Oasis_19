@@ -2,12 +2,12 @@ import 'dart:convert';
 
 class Teams {
     Info eventInfo;
-    Info levelInfo;
+    List<Info> levelsInfo;
     List<Info> teamsInfo;
 
     Teams({
         this.eventInfo,
-        this.levelInfo,
+        this.levelsInfo,
         this.teamsInfo,
     });
 
@@ -21,13 +21,13 @@ class Teams {
 
     factory Teams.fromMap(Map<String, dynamic> json) => Teams(
         eventInfo: Info.fromMap(json["event_info"]),
-        levelInfo: Info.fromMap(json["level_info"]),
-        teamsInfo: List<Info>.from(json["teams_info"].map((x) => Info.fromMap(x))),
+        levelsInfo: List<Info>.from(json["levels_info"].map((x) => Info.fromMap(x))),
+        teamsInfo: List<Info>.from(json["teams_info"].map((x) => Info.fromMap(x)))
     );
 
     Map<String, dynamic> toMap() => {
         "event_info": eventInfo.toMap(),
-        "level_info": levelInfo.toMap(),
+        "level_info": List<dynamic>.from(levelsInfo.map((x) => x.toMap())),
         "teams_info": List<dynamic>.from(teamsInfo.map((x) => x.toMap())),
     };
 }
