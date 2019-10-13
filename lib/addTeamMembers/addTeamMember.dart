@@ -14,9 +14,10 @@ class AddTeamMemberPage extends StatelessWidget {
   String eventId;
   String levelId;
   Info teamInfo;
+  String teamName;
   TeamMembersListModel model;
 
-  AddTeamMemberPage({@required this.addingTeam, @required this.eventId, @required this.levelId, this.teamInfo, this.model});
+  AddTeamMemberPage({@required this.addingTeam, @required this.eventId, @required this.levelId, this.teamInfo, this.model, this.teamName});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class AddTeamMemberPage extends StatelessWidget {
             print("Entered Bloc Provider");
             return AddMemberBloc(httpClient: http.Client());
           },
-          child: BlocChild(eventId, addingTeam, levelId, teamInfo),
+          child: BlocChild(eventId, addingTeam, levelId, teamInfo, teamName: teamName,),
         ),
     );
   }
@@ -44,13 +45,14 @@ class AddTeamMemberPage extends StatelessWidget {
 
 class BlocChild extends StatefulWidget {
   @override
-  _BlocChildState createState() => _BlocChildState(eventId, addingTeam, levelId, teamInfo: teamInfo);
+  _BlocChildState createState() => _BlocChildState(eventId, addingTeam, levelId, teamInfo: teamInfo, teamName: teamName);
   String eventId;
   bool addingTeam;
   String levelId;
+  String teamName;
   Info teamInfo;
 
-  BlocChild(this.eventId, this.addingTeam, this.levelId, this.teamInfo);
+  BlocChild(this.eventId, this.addingTeam, this.levelId, this.teamInfo, {this.teamName});
 }
 
 class _BlocChildState extends State<BlocChild> {
@@ -63,14 +65,16 @@ String eventId;
 bool addingTeam;
 bool isFocused = false;
 String levelId;
+String teamName;
 Info teamInfo;
 
-_BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
+_BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo, this.teamName});
 
 @override
   void initState() {
     super.initState();
     _bloc = BlocProvider.of<AddMemberBloc>(context);
+    teamNameController.text = this.teamName;
   }
 
   @override
@@ -93,9 +97,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                             fontSize: 18.0,
                           ),
                           controller: teamNameController,
-                          decoration: InputDecoration(
-                            hintText: "Enter Team"
-                          ),
+                          enabled: false,
                         ),
                       ),
                     ),
@@ -213,7 +215,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                     ],
                   ),
                 ),*/
-                 /* Expanded(
+                 Expanded(
                   flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -226,11 +228,11 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                             ),
                           /* To disable the button, we need to pass null in the onPressed field
                             Currently, the button is disabled if the loader is visible, or there is no text in the text field*/
-                          onPressed: codeController.text.isNotEmpty ? () {
+                          onPressed: codeController.text.isEmpty ? () {
                             print("Added Member = ${codeController.text}");
-                            setState(() {
-                            (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
-                            codeController.text = "";
+                            setState(() async {
+                            /* (_bloc.currentState as NoMemberScanned).addMemberInfo(codeController.text);
+                            codeController.text = ""; */
                             });
                             // Navigator.of(context).pop();
                           } : null,
@@ -238,7 +240,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                       ),
 
                   ),
-                ), */
+                ),
                 Expanded(
                   flex: 2,
                   child: Padding(

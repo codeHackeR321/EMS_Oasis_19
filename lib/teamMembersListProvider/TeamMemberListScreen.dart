@@ -45,75 +45,77 @@ class MembersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TeamMembersListModel _listModel = Provider.of<TeamMembersListModel>(context);
-    return Center(
-      child: _listModel.isLoading ? 
-        CircularProgressIndicator() : 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Flexible(
-              flex: 1,
-              child: _listModel.teamMembers.participationsInfo.isEmpty ? 
-                Center(
-                  child: Text("This Team currently has no members enrolled"),
-                ) :
-                ListView.builder(
-                  itemCount: _listModel.teamMembers.participationsInfo.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "${_listModel.teamMembers.participationsInfo[index].name}",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white
+    return Material(
+      child: Center(
+        child: _listModel.isLoading ? 
+          CircularProgressIndicator() : 
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: _listModel.teamMembers.participationsInfo.isEmpty ? 
+                  Center(
+                    child: Text("This Team currently has no members enrolled"),
+                  ) :
+                  ListView.builder(
+                    itemCount: _listModel.teamMembers.participationsInfo.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "${_listModel.teamMembers.participationsInfo[index].name}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white
+                                          ),
+                                        )
+                                      ),
+                                      Flexible(
+                                        flex: 1,
+                                        child: Container(),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "${_listModel.teamMembers.participationsInfo[index].college}",
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            color: Colors.white
+                                          ),
                                         ),
                                       )
-                                    ),
-                                    Flexible(
-                                      flex: 1,
-                                      child: Container(),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "${_listModel.teamMembers.participationsInfo[index].college}",
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          color: Colors.white
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                                    ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    },
+                  ),
+              ),
+              Container(
+                child: RaisedButton(
+                  child: Text("Add Team Member"),
+                  onPressed: () async { 
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: false,eventId: eventId ,teamInfo: team, model: _listModel))); 
                   },
                 ),
-            ),
-            Container(
-              child: RaisedButton(
-                child: Text("Add Team Member"),
-                onPressed: () async {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: false,eventId: eventId ,teamInfo: team, model: _listModel))); 
-                },
-              ),
-            )
-          ],
-        ),
+              )
+            ],
+          ),
+      ),
     );
   }
 }

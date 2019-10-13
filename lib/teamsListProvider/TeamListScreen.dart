@@ -36,6 +36,7 @@ class TeamListScreen extends StatelessWidget {
 
 class TeamListWidget extends StatelessWidget {
   String eventId;
+  TextEditingController teamController = new TextEditingController(text: "");
 
   TeamListWidget(this.eventId);
 
@@ -110,7 +111,36 @@ class TeamListWidget extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId,)));
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return Material(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(8.0),
+                              child: TextField(
+                              controller: teamController,
+                              autofocus: false,
+                              decoration: InputDecoration(
+                                hintText: "Enter team Name"
+                              ),
+                            ),
+                          ),
+                          RaisedButton(
+                            onPressed: () async {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true,eventId: eventId, teamName: teamController.text.toString(),)));
+                            },
+                            child: Text("OK"),
+                          )
+
+                          ],
+                        ),
+                      );
+                    }
+                  );
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => AddTeamMemberPage(addingTeam: true, eventId: eventId,)));
                 },
             ),
              ),
