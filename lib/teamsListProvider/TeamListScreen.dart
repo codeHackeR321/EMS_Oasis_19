@@ -53,8 +53,19 @@ class TeamListWidget extends StatelessWidget {
         Column(
          children: <Widget>[
            _listModel.teams.teamsInfo.isEmpty || _listModel.teams == null ? 
-            Center(child: Text("No Teams Registered for this event yet"),) :
-            Flexible(
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text("No Teams Registered for this event yet",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Color.fromRGBO(255, 77, 77, 25)
+                )
+                  ,),
+              )
+              ,) :
+
+              Flexible(
               flex: 1,
               child: Container(
                 width: double.infinity,
