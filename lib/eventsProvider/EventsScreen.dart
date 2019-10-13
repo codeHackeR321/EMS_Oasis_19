@@ -104,6 +104,7 @@ class _EventScreenState extends State<EventScreen> {
 
   Widget EventsListViewCard1(Event event, BuildContext context, _EventScreenState state, EventPage eventPage) {
     return Container(
+      margin: EdgeInsets.fromLTRB(32.0, 4.0, 32.0, 4.0),
       child: RaisedButton(
         onPressed: () async {
           print("Button Pressed");
@@ -126,7 +127,7 @@ class _EventScreenState extends State<EventScreen> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text("Name: ${event.name}",
+            child: Text("${event.name}",
             style: TextStyle(
               fontSize: 16.0
             ),

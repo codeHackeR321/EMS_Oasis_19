@@ -62,18 +62,41 @@ class MembersListWidget extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Text(_listModel.teamMembers.participationsInfo[index].name),
-                                  Text(_listModel.teamMembers.participationsInfo[index].college)
-                                ],
-                              ),
-                            ],
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "${_listModel.teamMembers.participationsInfo[index].name}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white
+                                        ),
+                                      )
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "${_listModel.teamMembers.participationsInfo[index].college}",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          color: Colors.white
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                            ),
                           ),
                         ),
                       ),

@@ -80,7 +80,7 @@ class TeamListWidget extends StatelessWidget {
                           child: RaisedButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Team \n ${_listModel.teams.teamsInfo[index].name}",
+                              child: Text("${_listModel.teams.teamsInfo[index].name}",
                               style: TextStyle(
                                 fontSize: 16.0,
                               ),),
