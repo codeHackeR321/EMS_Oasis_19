@@ -37,16 +37,13 @@ class _EventScreenState extends State<EventScreen> {
     print("Value for b = ${b.toString()}");
     return new ChangeNotifierProvider<EventPage>(
       builder: b,
-      child: MaterialApp(
-      title: pageTitle,
-      home: Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           title: Text(pageTitle),
           leading: Container(),
         ),
         body: EventsListOne(this)
       ),
-    ),
     );
   }
 

@@ -20,9 +20,7 @@ class AddTeamMemberPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: pageTitle,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
             child: Icon(Icons.arrow_back_ios),
@@ -40,7 +38,6 @@ class AddTeamMemberPage extends StatelessWidget {
           },
           child: BlocChild(eventId, addingTeam, levelId, teamInfo),
         ),
-      ),
     );
   }
 }

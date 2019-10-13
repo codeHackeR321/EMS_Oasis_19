@@ -12,9 +12,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
-  HomePageDeciderState parent;
+  // HomePageDeciderState parent;
 
-  LoginForm(this.parent);
+  LoginForm();
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -166,9 +166,6 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<Null> navigateToNextPage() async { 
-    var repo = EventsRepository();
-    // repo.getEvents();
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => EventScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EventScreen()));
    }
 }

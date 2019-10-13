@@ -10,34 +10,35 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: appTitle,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(appTitle),
-        ),
-        body: HomePageDecider(),
-      ),
+      // home: Scaffold(
+      //   appBar: AppBar(
+      //     title: Text(appTitle),
+      //   ),
+      //   body: HomePageDecider(),
+      // ),
+      home: Scaffold(appBar: AppBar(title: Text('Login')), body: LoginForm(),),
     );
   }
 }
 
-class HomePageDecider extends StatefulWidget {
-  @override
-  HomePageDeciderState createState() => HomePageDeciderState();
-}
+// class HomePageDecider extends StatefulWidget {
+//   @override
+//   HomePageDeciderState createState() => HomePageDeciderState();
+// }
 
-class HomePageDeciderState extends State<HomePageDecider> {
-  bool isLoading = false;
+// class HomePageDeciderState extends State<HomePageDecider> {
+//   bool isLoading = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-      firstChild: Center(child: CircularProgressIndicator(),),
-      secondChild:  LoginForm(this),
-      crossFadeState: isLoading ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      duration: Duration(
-        milliseconds: 500,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedCrossFade(
+//       firstChild: Center(child: CircularProgressIndicator(),),
+//       secondChild:  LoginForm(),
+//       crossFadeState: isLoading ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+//       duration: Duration(
+//         milliseconds: 500,
+//       ),
+//     );
+//   }
+// }
 

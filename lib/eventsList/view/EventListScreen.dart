@@ -14,9 +14,7 @@ class EventListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: pageTitle,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(pageTitle),
           leading: GestureDetector(
@@ -32,7 +30,6 @@ class EventListScreen extends StatelessWidget {
           },
           child: ListOfEvents(),
         ),
-      ),
     );
   }
 }

@@ -19,9 +19,7 @@ class TeamMemberListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TeamMembersListModel>(
       builder: (BuildContext context) => TeamMembersListModel(eventId, team),
-      child: MaterialApp(
-      title: _pageTitle,
-      home: Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           title: Text(_pageTitle),
           leading: GestureDetector(
@@ -34,7 +32,6 @@ class TeamMemberListScreen extends StatelessWidget {
         ),
         body: MembersListWidget(eventId, team)
       ),
-    ),
     );
   }
 }

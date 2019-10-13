@@ -17,9 +17,7 @@ class TeamListScreen extends StatelessWidget {
     print("Entered Build Method");
     return ChangeNotifierProvider<TeamListModel>(
       builder: (BuildContext context) => TeamListModel(eventId),
-      child: MaterialApp(
-      title: _pageTitle,
-      home: Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           title: Text(_pageTitle),
           leading: GestureDetector(
@@ -32,7 +30,6 @@ class TeamListScreen extends StatelessWidget {
         ),
         body: TeamListWidget(eventId)
       ),
-    ),
     );
   }
 }
