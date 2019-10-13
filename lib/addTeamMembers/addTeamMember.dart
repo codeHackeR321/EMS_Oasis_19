@@ -61,6 +61,7 @@ TextEditingController teamNameController = new TextEditingController(text: "");
 QRViewController controller;
 String eventId;
 bool addingTeam;
+bool isFocused = false;
 String levelId;
 Info teamInfo;
 
@@ -86,14 +87,15 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 18.0,
-                        ),
-                        controller: teamNameController,
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          hintText: "Enter Team"
+                      child: GestureDetector(
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                          controller: teamNameController,
+                          decoration: InputDecoration(
+                            hintText: "Enter Team"
+                          ),
                         ),
                       ),
                     ),
@@ -137,8 +139,8 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                   child: QRView(
                     key: qrKey,
                     onQRViewCreated: (QRViewController controller) {
-                      this.controller = controller;
-                      controller.scannedDataStream.listen((scanData) {
+                      try {
+                        controller.scannedDataStream.listen((scanData) {
                         controller.pauseCamera();
                         setState(() {
                           print("Automatically called AddNewTeamMember");
@@ -146,6 +148,9 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo});
                         });
                         controller.resumeCamera();
                       });
+                      } catch(e) {
+                        print("Enttered Catch $e");
+                      }
                     },
                   ),
                 ),
