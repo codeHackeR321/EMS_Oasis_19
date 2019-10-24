@@ -141,6 +141,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo, thi
                   child: QRView(
                     key: qrKey,
                     onQRViewCreated: (QRViewController controller) {
+                      print("Entered onQRViewCreated");
                       try {
                         controller.scannedDataStream.listen((scanData) {
                         controller.pauseCamera();
@@ -215,7 +216,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo, thi
                     ],
                   ),
                 ),*/
-                 Expanded(
+                 /* Expanded(
                   flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -240,7 +241,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo, thi
                       ),
 
                   ),
-                ),
+                ), */
                 Expanded(
                   flex: 2,
                   child: Padding(
@@ -256,7 +257,7 @@ _BlocChildState(this.eventId, this.addingTeam, this.levelId, {this.teamInfo, thi
 
                           onPressed: (state as NoMemberScanned).scannedMembers.isNotEmpty ? () {
                             if(addingTeam) {
-                              if(teamNameController.text.isNotEmpty) {
+                              if(true) {
                                 print("Adding Team");
                                 var qrCodes = (_bloc.currentState as NoMemberScanned).scannedMembers;
                                 _bloc.dispatch(AddNewTeam(eventId: eventId, teamName: teamNameController.text, qrCodes: qrCodes.toList(), leader: qrCodes.toList()[0]));
